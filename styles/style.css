@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.cellsize {
+  width: 20px; 
+  height: 20px;
+  background-color:#ebedf0;
+  border: 3px solid #FFFFFF;
+  /* border-radius: 2px; */
+}
+
+.startcell {
+  width: 20px; 
+  height: 20px;
+  background-color: tomato;
+  /* background-image: url('../icons/starticonai.png');
+  background-size: 15px 20px; */
+  border: 3px solid #FFFFFF;
+  /* border-radius: 3px; */
+}
+
+.endcell {
+  width: 20px; 
+  height: 20px;
+  background-color: #000000;
+  /* background-image: url('../icons/endiconai.jpg');
+  background-size: 15px 20px; */
+  border: 3px solid #FFFFFF;
+  /* border-radius: 3px; */
+}
