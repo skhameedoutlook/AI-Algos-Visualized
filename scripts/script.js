@@ -1,16 +1,18 @@
 var starti=0, startj=0, endi=10, endj=10;
 var ci = starti, cj = startj;
-var gridx = 20, gridy = 80;
+var gridx = 20, gridy = 60;
+gridy = Math.round(screen.width/20);
 
 var xarr = [1, 2, 3];
 var visited = [];
 var resultPath = [];
+var theStack = [];
 // var yarr = [x, 1];
 
 var resetTable = function() {
     x = gridx;
     y = gridy;
-    var theHTML = '<table style="margin-top: 10px;">';
+    var theHTML = '<table style="margin-top: 10px; margin-left: -15px; margin-right: auto; width:'+screen.width+'px">';
     for(var i = 0; i < x; i++) {
         theHTML += '<tr>';
         for(var j = 0; j < y; j++) {
@@ -57,79 +59,163 @@ var drawDFSPath = function() {
     cj = startj;
     resultPath = [];
     visited = [];
-    var theStack = [(starti+"-"+startj)];
+    theStack = [(starti+"-"+startj)];
     //clear visited
     // for(var i = 0; i < x; i++) {
     //     for(var j = 0; j < y; j++) {
     //         visited[i+"-"+j] == 0;
     //     }
     // }
-    while(theStack.length != 0) {
-        var anElement = theStack[theStack.length-1];
-        ci = anElement.split("-")[0];
-        cj = anElement.split("-")[1];
-        // console.log(ci+"-"+cj + "<->" +visited[ci+"-"+cj]);
-        if(visited[ci+"-"+cj] == null) {
-            resultPath.push(anElement);
-            // console.log(anElement + ":" + theStack.length);
-            visited[ci+"-"+cj] = 1;
-            // console.log("Set: " + (10*(ci) + cj) + " = 1");
+    // doDFSRemaining();
+    doDFSRemainingTimer();
+    // while(theStack.length != 0) {
+    //     var anElement = theStack[theStack.length-1];
+    //     ci = anElement.split("-")[0];
+    //     cj = anElement.split("-")[1];
+    //     // console.log(ci+"-"+cj + "<->" +visited[ci+"-"+cj]);
+    //     if(visited[ci+"-"+cj] == null) {
+    //         resultPath.push(anElement);
+    //         // console.log(anElement + ":" + theStack.length);
+    //         visited[ci+"-"+cj] = 1;
+    //         // console.log("Set: " + (10*(ci) + cj) + " = 1");
+    //     }
+    //     if(parseInt(ci) == endi && parseInt(cj) == endj) {
+    //         // alert("Found path");
+    //         break;
+    //     }
+    //     theStack.pop();
+    //     // console?
+    //     //moving up
+    //     if(isValidIndex(parseInt(ci)-1, parseInt(cj))) {
+    //         // console.log("up");
+    //         if(visited[(parseInt(ci)-1)+"-"+cj] == null) {
+    //             theStack.push((parseInt(ci)-1)+"-"+cj);
+    //         }
+    //     }
+    //     else {
+    //         // console.log((ci-1)+"-"+cj+ " is invalid");
+    //     }
+    //     //moving right
+    //     if(isValidIndex(parseInt(ci), parseInt(cj)+1)) {
+    //         // console.log("right");
+    //         if(visited[(ci)+"-"+(parseInt(cj)+1)] == null) {
+    //             // console.log("right");
+    //             theStack.push(ci+"-"+(parseInt(cj)+1));
+    //         }
+    //     }
+    //     else {
+    //         // console.log((ci)+"-"+(cj+1)+ " is invalid");
+    //     }
+    //     //moving down
+    //     if(isValidIndex(parseInt(ci)+1, parseInt(cj))) {
+    //         // console.log("down");
+    //         if(visited[(parseInt(ci)+1)+"-"+cj] == null) {
+    //             // console.log(anElement + " Down " + theStack.length);
+    //             theStack.push((parseInt(ci)+1)+"-"+cj);
+    //         }
+    //     }
+    //     else {
+    //         // console.log((ci+11)+"-"+cj+ " is invalid");
+    //     }
+    //     //moving left
+    //     if(isValidIndex(parseInt(ci), parseInt(cj)-1)) {
+    //         // console.log("right");
+    //         if(visited[ci+"-"+(parseInt(cj)-1)] == null) {
+    //             theStack.push(ci+"-"+(parseInt(cj)-1));
+    //         }
+    //     }
+    //     else {
+    //         // console.log((ci)+"-"+(cj-1)+ " is invalid");
+    //     }
+    // }
+    // // for(var i = 0; i < resultPath.length; i++) {
+    // //     document.getElementById(resultPath[i]).style.backgroundColor = "tomato";
+    // //     // wait(1);
+    // // }
+    // // displayResultPath();
+    // setDisplayResultTimer();
+}
+
+var doDFSRemaining = function() {
+    if(theStack.length == 0) {
+        clearInterval(DFSRunningIntervalId);
+        return;
+    }
+    var anElement = theStack[theStack.length-1];
+    ci = anElement.split("-")[0];
+    cj = anElement.split("-")[1];
+    // console.log(ci+"-"+cj + "<->" +visited[ci+"-"+cj]);
+    if(visited[ci+"-"+cj] == null) {
+        resultPath.push(anElement);
+        // console.log(anElement + ":" + theStack.length);
+        visited[ci+"-"+cj] = 1;
+        // console.log("Set: " + (10*(ci) + cj) + " = 1");
+    }
+    if(parseInt(ci) == endi && parseInt(cj) == endj) {
+        // alert("Found path");
+        document.getElementById("tmpalgname").innerHTML = "Path Found. Now painting it!";
+        clearInterval(DFSRunningIntervalId);
+        setDisplayResultTimer();
+        // break;
+        return;
+    }
+    theStack.pop();
+    document.getElementById(ci+"-"+cj).style.backgroundColor = "#f1c40f";
+    console.log("Set for " + ci+"-"+cj );
+    // console?
+    //moving up
+    if(isValidIndex(parseInt(ci)-1, parseInt(cj))) {
+        // console.log("up");
+        if(visited[(parseInt(ci)-1)+"-"+cj] == null) {
+            theStack.push((parseInt(ci)-1)+"-"+cj);
         }
-        if(parseInt(ci) == endi && parseInt(cj) == endj) {
-            // alert("Found path");
-            break;
-        }
-        theStack.pop();
-        // console?
-        //moving up
-        if(isValidIndex(parseInt(ci)-1, parseInt(cj))) {
-            // console.log("up");
-            if(visited[(parseInt(ci)-1)+"-"+cj] == null) {
-                theStack.push((parseInt(ci)-1)+"-"+cj);
-            }
-        }
-        else {
-            // console.log((ci-1)+"-"+cj+ " is invalid");
-        }
-        //moving right
-        if(isValidIndex(parseInt(ci), parseInt(cj)+1)) {
+    }
+    else {
+        // console.log((ci-1)+"-"+cj+ " is invalid");
+    }
+    //moving right
+    if(isValidIndex(parseInt(ci), parseInt(cj)+1)) {
+        // console.log("right");
+        if(visited[(ci)+"-"+(parseInt(cj)+1)] == null) {
             // console.log("right");
-            if(visited[(ci)+"-"+(parseInt(cj)+1)] == null) {
-                // console.log("right");
-                theStack.push(ci+"-"+(parseInt(cj)+1));
-            }
+            theStack.push(ci+"-"+(parseInt(cj)+1));
         }
-        else {
-            // console.log((ci)+"-"+(cj+1)+ " is invalid");
+    }
+    else {
+        // console.log((ci)+"-"+(cj+1)+ " is invalid");
+    }
+    //moving down
+    if(isValidIndex(parseInt(ci)+1, parseInt(cj))) {
+        // console.log("down");
+        if(visited[(parseInt(ci)+1)+"-"+cj] == null) {
+            // console.log(anElement + " Down " + theStack.length);
+            theStack.push((parseInt(ci)+1)+"-"+cj);
         }
-        //moving down
-        if(isValidIndex(parseInt(ci)+1, parseInt(cj))) {
-            // console.log("down");
-            if(visited[(parseInt(ci)+1)+"-"+cj] == null) {
-                // console.log(anElement + " Down " + theStack.length);
-                theStack.push((parseInt(ci)+1)+"-"+cj);
-            }
+    }
+    else {
+        // console.log((ci+11)+"-"+cj+ " is invalid");
+    }
+    //moving left
+    if(isValidIndex(parseInt(ci), parseInt(cj)-1)) {
+        // console.log("right");
+        if(visited[ci+"-"+(parseInt(cj)-1)] == null) {
+            theStack.push(ci+"-"+(parseInt(cj)-1));
         }
-        else {
-            // console.log((ci+11)+"-"+cj+ " is invalid");
-        }
-        //moving left
-        if(isValidIndex(parseInt(ci), parseInt(cj)-1)) {
-            // console.log("right");
-            if(visited[ci+"-"+(parseInt(cj)-1)] == null) {
-                theStack.push(ci+"-"+(parseInt(cj)-1));
-            }
-        }
-        else {
-            // console.log((ci)+"-"+(cj-1)+ " is invalid");
-        }
+    }
+    else {
+        // console.log((ci)+"-"+(cj-1)+ " is invalid");
     }
     // for(var i = 0; i < resultPath.length; i++) {
     //     document.getElementById(resultPath[i]).style.backgroundColor = "tomato";
     //     // wait(1);
     // }
     // displayResultPath();
-    setDisplayResultTimer();
+}
+
+var DFSRunningIntervalId;
+
+var doDFSRemainingTimer = function() {
+    DFSRunningIntervalId = setInterval(doDFSRemaining, 10);
 }
 
 // var setCellColorToTomato = function(cellid) {
@@ -154,11 +240,12 @@ var displayResultPath = function() {
     if(last >= resultPath.length-1) {
         // console.log("test");
         clearInterval(pathColorIntervalId);
+        document.getElementById("tmpalgname").innerHTML = "Done!";
     }
     else {
         // console.log("test2: " + resultPath[last]);
-        document.getElementById(resultPath[last]).style.backgroundColor = "tomato";
-        document.getElementById(resultPath[last]).style.border = "3px solid tomato";
+        document.getElementById(resultPath[last]).style.backgroundColor = "#2ecc71";
+        document.getElementById(resultPath[last]).style.border = "1px solid #2ecc71";
     }
     // console.log(last++);
     // for(var i = 0; i < resultPath.length; i++) {

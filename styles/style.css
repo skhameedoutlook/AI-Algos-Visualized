@@ -7,26 +7,32 @@ body {
   width: 20px; 
   height: 20px;
   background-color:#ebedf0;
-  border: 3px solid #FFFFFF;
-  /* border-radius: 2px; */
+  border: 1px solid #ffffff;
+  /* border: 3px solid #FFFFFF; */
+  /* border-radius: 3px; */
+  margin: 3px;
 }
 
 .startcell {
   width: 20px; 
   height: 20px;
-  background-color: tomato;
+  background-color: #f1c40f;
+  border: 1px solid #ffffff;
   /* background-image: url('../icons/starticonai.png');
   background-size: 15px 20px; */
-  border: 3px solid #FFFFFF;
-  /* border-radius: 3px; */
+  /* border: 3px solid #FFFFFF; */
+  /* border-radius: 2px; */
+  margin: 3px;
 }
 
 .endcell {
   width: 20px; 
   height: 20px;
   background-color: #000000;
+  border: 1px solid #ffffff;
   /* background-image: url('../icons/endiconai.jpg');
   background-size: 15px 20px; */
-  border: 3px solid #FFFFFF;
-  /* border-radius: 3px; */
+  /* border: 3px solid #FFFFFF; */
+  /* border-radius: 2px; */
+  margin: 3px;
 }
